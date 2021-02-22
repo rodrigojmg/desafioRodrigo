@@ -1,12 +1,20 @@
+
 package com.rodrigojose.desafioRodrigo.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 public class Usuario implements Serializable {
@@ -14,37 +22,40 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(updatable = false, unique = true, nullable = false)
+	private UUID id;
+	@Column(nullable = false)
 	private String name;
+	@Column(nullable = false)
 	private String email;
-	private Integer password;
-//	private Integer phones; // Verificar como será feito
+	@Column(nullable = false)
+	private String password;
 	private Date created;
 	private Date modified;
 	private Date lastLogin;
-//	private String token;  // Verificar como será feito
+
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	private List<Phones> phones = new ArrayList<>();
 
 	public Usuario() {
-
 	}
 
-	public Usuario(Integer id, String name, String email, Integer password) {
+	public Usuario(String name, String email, String password) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.created = new Date();
-		this.modified = new Date();
 		this.lastLogin = new Date();
 	}
 
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
@@ -64,11 +75,11 @@ public class Usuario implements Serializable {
 		this.email = email;
 	}
 
-	public Integer getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(Integer password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
@@ -96,8 +107,12 @@ public class Usuario implements Serializable {
 		this.lastLogin = lastLogin;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public List<Phones> getPhones() {
+		return phones;
+	}
+
+	public void setPhones(List<Phones> phones) {
+		this.phones = phones;
 	}
 
 	@Override

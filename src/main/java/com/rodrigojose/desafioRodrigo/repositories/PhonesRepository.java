@@ -1,13 +1,11 @@
 package com.rodrigojose.desafioRodrigo.repositories;
 
-import java.util.UUID;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.rodrigojose.desafioRodrigo.domain.Usuario;
+import com.rodrigojose.desafioRodrigo.domain.Phones;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
+public interface PhonesRepository extends JpaRepository<Phones, String> {
 
 }
